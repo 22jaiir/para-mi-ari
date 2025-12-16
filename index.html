@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>🎄 Tickets de Navidad para Ari</title>
+  <style>
+    :root{
+      --bg1:#fff5fb;
+      --bg2:#fffdf7;
+      --card:#ffffffcc;
+      --ink:#2a1f2b;
+      --muted:#6b556e;
+      --line:#f1cbe2;
+      --pink:#ff5aa5;
+      --pink2:#ff86bd;
+      --mint:#62e6c2;
+      --sky:#7dbdff;
+      --gold:#ffd27a;
+      --shadow: 0 18px 50px rgba(42,31,43,.10);
+      --radius: 20px;
+      --radius2: 16px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans";
+      background:
+        radial-gradient(1100px 700px at 8% 8%, rgba(255,90,165,.18), transparent 60%),
+        radial-gradient(900px 600px at 92% 12%, rgba(125,189,255,.18), transparent 60%),
+        radial-gradient(900px 600px at 50% 100%, rgba(98,230,194,.16), transparent 60%),
+        linear-gradient(160deg, var(--bg1), var(--bg2));
+      padding:22px;
+    }
+
+    .wrap{ max-width: 980px; margin: 0 auto; }
+
+    header{
+      display:flex;
+      gap:16px;
+      align-items:flex-start;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      margin-bottom:16px;
+    }
+
+    .title{ display:flex; flex-direction:column; gap:8px; }
+    h1{
+      margin:0;
+      font-size: clamp(26px, 4vw, 40px);
+      line-height:1.05;
+      letter-spacing:.2px;
+    }
+    .subtitle{
+      margin:0;
+      color:var(--muted);
+      max-width: 72ch;
+      font-size: 15px;
+      line-height:1.55;
+    }
+
+    .chip-row{ display:flex; gap:10px; flex-wrap:wrap; }
+    .chip{
+      display:flex; align-items:center; gap:8px;
+      border:1px solid rgba(255,90,165,.25);
+      background: rgba(255,255,255,.60);
+      backdrop-filter: blur(10px);
+      padding:10px 12px;
+      border-radius:999px;
+      font-size: 13px;
+      color: var(--muted);
+      box-shadow: 0 10px 26px rgba(42,31,43,.08);
+      user-select:none;
+    }
+    .chip b{ color: var(--ink); font-weight: 750; }
+
+    .panel{
+      border:1px solid rgba(241,203,226,.9);
+      background: rgba(255,255,255,.55);
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      overflow:hidden;
+    }
+
+    .hero{
+      padding:16px 18px;
+      border-bottom:1px solid rgba(241,203,226,.8);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .note{
+      display:flex; gap:10px; align-items:flex-start;
+      color:var(--muted);
+      font-size: 14px;
+      line-height:1.55;
+      max-width: 76ch;
+    }
+    .note .emoji{ font-size: 18px; margin-top: -2px; }
+
+    .actions{ display:flex; gap:10px; align-items:center; }
+    button{
+      border:1px solid rgba(255,90,165,.30);
+      background: linear-gradient(180deg, rgba(255,255,255,.75), rgba(255,255,255,.55));
+      color: var(--ink);
+      padding:10px 12px;
+      border-radius: 14px;
+      cursor:pointer;
+      font-weight: 750;
+      letter-spacing:.2px;
+      transition: transform .08s ease, box-shadow .2s ease, border-color .2s ease;
+      box-shadow: 0 10px 20px rgba(255,90,165,.10);
+      user-select:none;
+    }
+    button:hover{
+      border-color: rgba(255,90,165,.45);
+      box-shadow: 0 14px 26px rgba(255,90,165,.14);
+    }
+    button:active{ transform: translateY(1px) scale(.99); }
+    .btn-soft{
+      border-color: rgba(125,189,255,.35);
+      box-shadow: 0 10px 20px rgba(125,189,255,.12);
+    }
+
+    .grid{
+      display:grid;
+      gap:14px;
+      padding:16px;
+    }
+    @media (min-width: 840px){
+      .grid{ grid-template-columns: 1.1fr .9fr; }
+    }
+
+    .section-title{
+      margin: 0 0 10px 0;
+      font-size: 13px;
+      letter-spacing:.7px;
+      text-transform: uppercase;
+      color: rgba(107,85,110,.85);
+    }
+
+    .ticket{
+      border: 1px solid rgba(241,203,226,.95);
+      background: rgba(255,255,255,.72);
+      border-radius: var(--radius2);
+      overflow:hidden;
+      position:relative;
+      box-shadow: 0 16px 34px rgba(42,31,43,.08);
+    }
+
+    .ticket::before{
+      content:"";
+      position:absolute;
+      inset:-1px -1px auto -1px;
+      height: 5px;
+      background: linear-gradient(90deg, rgba(255,90,165,.85), rgba(255,134,189,.78), rgba(125,189,255,.70), rgba(98,230,194,.70), rgba(255,210,122,.75));
+      opacity:.95;
+    }
+
+    .ticket-inner{
+      padding:14px 14px 12px 14px;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      justify-content:space-between;
+    }
+
+    .left{ display:flex; flex-direction:column; gap:6px; min-width:0; }
+    .name{
+      margin:0;
+      font-size: 18px;
+      display:flex; gap:8px; align-items:center; flex-wrap:wrap;
+      letter-spacing:.2px;
+    }
+    .pill{
+      font-size: 12px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      border:1px solid rgba(241,203,226,.95);
+      background: rgba(255,90,165,.06);
+      color: rgba(107,85,110,.95);
+      white-space:nowrap;
+    }
+    .desc{
+      margin:0;
+      color: rgba(107,85,110,.95);
+      font-size: 13.5px;
+      line-height: 1.5;
+      max-width: 62ch;
+    }
+
+    .right{
+      display:flex; flex-direction:column; gap:8px; align-items:flex-end;
+      flex-shrink:0;
+    }
+
+    .code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      color: rgba(42,31,43,.80);
+      border: 1px dashed rgba(255,90,165,.35);
+      padding: 7px 9px;
+      border-radius: 12px;
+      background: rgba(255,90,165,.06);
+      max-width: 260px;
+      text-align:right;
+      user-select: all;
+    }
+
+    .footer{
+      border-top:1px solid rgba(241,203,226,.8);
+      padding: 10px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .hint{
+      color: rgba(107,85,110,.95);
+      font-size: 13px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .tiny-dot{
+      width:9px; height:9px; border-radius: 999px;
+      background: rgba(255,90,165,.85);
+      box-shadow: 0 0 0 3px rgba(255,90,165,.12);
+      flex-shrink:0;
+    }
+
+    .side{ padding:16px; border-left:1px solid rgba(241,203,226,.85); }
+    @media (max-width: 839px){
+      .side{ border-left:none; border-top:1px solid rgba(241,203,226,.85); }
+    }
+
+    .box{
+      border:1px solid rgba(241,203,226,.95);
+      background: rgba(255,255,255,.70);
+      border-radius: var(--radius2);
+      padding:14px;
+      box-shadow: 0 14px 28px rgba(42,31,43,.06);
+    }
+    .box ul{
+      margin:10px 0 0 18px;
+      padding:0;
+      color: rgba(107,85,110,.95);
+      line-height:1.6;
+      font-size: 14px;
+    }
+    .box li{ margin:7px 0; }
+
+    .msg{
+      margin-top:12px;
+      padding:12px 14px;
+      border-radius: var(--radius2);
+      border:1px solid rgba(241,203,226,.95);
+      background: rgba(255,90,165,.05);
+      color: rgba(107,85,110,.95);
+      line-height:1.65;
+      font-size: 14px;
+    }
+    .msg b{ color: var(--ink); }
+
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(241,203,226,.95);
+      box-shadow: 0 18px 40px rgba(42,31,43,.10);
+      padding: 10px 12px;
+      border-radius: 999px;
+      color: rgba(42,31,43,.85);
+      font-size: 13px;
+      opacity: 0;
+      pointer-events:none;
+      transition: opacity .18s ease, transform .18s ease;
+    }
+    .toast.show{
+      opacity: 1;
+      transform: translateX(-50%) translateY(-4px);
+    }
+
+    footer{
+      margin-top:14px;
+      color: rgba(107,85,110,.70);
+      font-size: 12.5px;
+      text-align:center;
+    }
+
+    @media print{
+      body{ padding:0; background:white; }
+      .toast, .actions{ display:none !important; }
+      .panel{ box-shadow:none; border-radius:0; border:none; }
+      .ticket{ box-shadow:none; }
+    }
+    
+    
+    
+    
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <h1>🎄 Tickets de Navidad para Mi Ari 💖</h1>
+        <p class="subtitle">
+          Pequeña, te dejé estos “tickets” para que elijas cuándo usarlos.
+          Sin apuro, sin presión… solo para engreírte un poquito ✨
+        </p>
+      </div>
+    </header>
+
+    <div class="panel">
+      <div class="hero">
+        <div class="note">
+          <div class="emoji">💌</div>
+          <div>
+            <b>Cómo canjear:</b> toca <b>“Copiar cupón”</b> y me lo mandas por WhatsApp.
+            Con eso ya queda validado y confirmamos la fecha y hora 😌
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- IZQUIERDA -->
+        <div>
+          <h3 class="section-title">Tickets premium</h3>
+
+          <div class="ticket" data-title="Ticket Uñas" data-code="ARI-NAILS-001">
+            <div class="ticket-inner">
+              <div class="left">
+                <p class="name">💅 Ticket Uñas</p>
+                <p class="desc">Manicure/pedicure o lo que tú quieras. Tú eliges el lugar ✨</p>
+              </div>
+              <div class="right">
+                <span class="pill">S/ 150 aprox</span>
+                <div class="code">ARI-NAILS-001</div>
+              </div>
+            </div>
+            <div class="footer">
+              <div class="hint"><span class="tiny-dot"></span> Canje: envíame el cupón</div>
+              <button class="btnCopy">📋 Copiar cupón</button>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="ticket" data-title="Ticket Peinado" data-code="ARI-HAIR-001">
+            <div class="ticket-inner">
+              <div class="left">
+                <p class="name">💇‍♀️ Ticket Peinado</p>
+                <p class="desc">Peinado, planchado, tratamiento… lo que te haga sentir top 💖</p>
+              </div>
+              <div class="right">
+                <span class="pill">S/ 300 aprox</span>
+                <div class="code">ARI-HAIR-001</div>
+              </div>
+            </div>
+            <div class="footer">
+              <div class="hint"><span class="tiny-dot"></span> Canje: envíame el cupón</div>
+              <button class="btnCopy">📋 Copiar cupón</button>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="ticket" data-title="Ticket Carrito Temu" data-code="ARI-TEMU-001">
+            <div class="ticket-inner">
+              <div class="left">
+                <p class="name">🛒 Ticket Carrito Temu</p>
+                <p class="desc">Arma tu carrito y yo lo cubro 🫶</p>
+              </div>
+              <div class="right">
+                <span class="pill">S/ 200 aprox</span>
+                <div class="code">ARI-TEMU-001</div>
+              </div>
+            </div>
+            <div class="footer">
+              <div class="hint"><span class="tiny-dot"></span> Canje: envíame el cupón</div>
+              <button class="btnCopy">📋 Copiar cupón</button>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="ticket" data-title="Ticket Carrito Shein" data-code="ARI-SHEIN-001">
+            <div class="ticket-inner">
+              <div class="left">
+                <p class="name">🧺 Ticket Carrito Shein</p>
+                <p class="desc">Arma tu carrito y yo lo cubro ✨</p>
+              </div>
+              <div class="right">
+                <span class="pill">S/ 250 aprox</span>
+                <div class="code">ARI-SHEIN-001</div>
+              </div>
+            </div>
+            <div class="footer">
+              <div class="hint"><span class="tiny-dot"></span> Canje: envíame el cupón</div>
+              <button class="btnCopy">📋 Copiar cupón</button>
+            </div>
+          </div>
+          
+          <div style="height:12px"></div>
+          
+          <div class="ticket" data-title="Cupón Skincare" data-code="ARI-SKINCARE-001">
+  <div class="ticket-inner">
+    <div class="left">
+      <p class="name">🧴 Cupón Skincare</p>
+      <p class="desc">Para que elijas tu skincare favorito ✨</p>
+    </div>
+    <div class="right">
+      <span class="pill">S/ 250 aprox</span>
+      <div class="code">ARI-SKINCARE-001</div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="hint"><span class="tiny-dot"></span> Canje: envíame el cupón</div>
+    <button class="btnCopy">📋 Copiar cupón</button>
+  </div>
+</div>
+
+<div style="height:12px"></div>
+
+<div class="ticket" data-title="Cupón Ropa/Zapatos" data-code="ARI-FASHION-001">
+  <div class="ticket-inner">
+    <div class="left">
+      <p class="name">👗👟 Cupón Ropa/Zapatos</p>
+      <p class="desc">Para que elijas una ropita o zapatos que te gusten 💖</p>
+    </div>
+    <div class="right">
+      <span class="pill">S/ 300 aprox</span>
+      <div class="code">ARI-FASHION-001</div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="hint"><span class="tiny-dot"></span> Canje: envíame el cupón</div>
+    <button class="btnCopy">📋 Copiar cupón</button>
+  </div>
+</div>
+
+
+          <div style="height:18px"></div>
+
+          <h3 class="section-title">Cupones de comida (cualquier día)</h3>
+
+          <div class="ticket" data-title="Cupón Comida #1" data-code="ARI-FOOD-01">
+            <div class="ticket-inner">
+              <div class="left">
+                <p class="name">🍔 Cupón Comida #1</p>
+                <p class="desc">Para un antojito, salida o delivery 😋</p>
+              </div>
+              <div class="right">
+                <span class="pill">S/ 50 aprox</span>
+                <div class="code">ARI-FOOD-01</div>
+              </div>
+            </div>
+            <div class="footer">
+              <div class="hint"><span class="tiny-dot"></span> Canje: envíame el cupón</div>
+              <button class="btnCopy">📋 Copiar cupón</button>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="ticket" data-title="Cupón Comida #2" data-code="ARI-FOOD-02">
+            <div class="ticket-inner">
+              <div class="left">
+                <p class="name">🍣 Cupón Comida #2</p>
+                <p class="desc">Para ese día de “hoy no cocino” 😄</p>
+              </div>
+              <div class="right">
+                <span class="pill">S/ 50 aprox</span>
+                <div class="code">ARI-FOOD-02</div>
+              </div>
+            </div>
+            <div class="footer">
+              <div class="hint"><span class="tiny-dot"></span> Canje: envíame el cupón</div>
+              <button class="btnCopy">📋 Copiar cupón</button>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="ticket" data-title="Cupón Comida #3" data-code="ARI-FOOD-03">
+            <div class="ticket-inner">
+              <div class="left">
+                <p class="name">🍕 Cupón Comida #3</p>
+                <p class="desc">Para celebrar cualquier mini logro 🥳</p>
+              </div>
+              <div class="right">
+                <span class="pill">S/ 50 aprox</span>
+                <div class="code">ARI-FOOD-03</div>
+              </div>
+            </div>
+            <div class="footer">
+              <div class="hint"><span class="tiny-dot"></span> Canje: envíame el cupón</div>
+              <button class="btnCopy">📋 Copiar cupón</button>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="ticket" data-title="Cupón Comida #4" data-code="ARI-FOOD-04">
+            <div class="ticket-inner">
+              <div class="left">
+                <p class="name">🥗 Cupón Comida #4</p>
+                <p class="desc">Para cuando quieras un gustito tranqui 🤍</p>
+              </div>
+              <div class="right">
+                <span class="pill">S/ 50 aprox</span>
+                <div class="code">ARI-FOOD-04</div>
+              </div>
+            </div>
+            <div class="footer">
+              <div class="hint"><span class="tiny-dot"></span> Canje: envíame el cupón</div>
+              <button class="btnCopy">📋 Copiar cupón</button>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="ticket" data-title="Cupón Comida #5" data-code="ARI-FOOD-05">
+            <div class="ticket-inner">
+              <div class="left">
+                <p class="name">🍰 Cupón Comida #5</p>
+                <p class="desc">El cupón “porque sí”. Porque te lo mereces ✨</p>
+              </div>
+              <div class="right">
+                <span class="pill">S/ 50 aprox</span>
+                <div class="code">ARI-FOOD-05</div>
+              </div>
+            </div>
+            <div class="footer">
+              <div class="hint"><span class="tiny-dot"></span> Canje: envíame el cupón</div>
+              <button class="btnCopy">📋 Copiar cupón</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- DERECHA -->
+        <div class="side">
+          <h3 class="section-title">Reglas (suaves, cero invasivas)</h3>
+          
+          <div class="box">
+  <div style="display:flex; gap:10px; align-items:flex-start">
+    <div style="font-size:18px">💖</div>
+    <div style="min-width:0">
+      <div style="font-weight:900; margin-bottom:6px">
+        Importante
+      </div>
+      <div style="color:rgba(107,85,110,.95); line-height:1.6; font-size:14px">
+        Estos regalos <b>no afectan</b> a los engreimientos de nuestro día a día.
+        Son solo para que puedas <b>elegir algo especial para ti</b>, a tu ritmo,
+        cuando tengas ganas ✨
+      </div>
+    </div>
+  </div>
+</div>
+
+          <div style="height:12px"></div>
+          
+          <div class="box">
+            <div style="display:flex; gap:10px; align-items:flex-start">
+              <div style="font-size:18px">🧸</div>
+              <div style="min-width:0">
+                <div style="font-weight:900; margin-bottom:6px">Solo para que dure bonito</div>
+                <ul>
+                  <li><b>Premium:</b> normalmente <b>2 por quincena</b>, pero si hay antojo extra, lo conversamos 😊</li>
+
+                  <li><b>Comida:</b> <b>cualquier día</b></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <div style="height:12px"></div>
+
+<div class="box">
+  <div style="display:flex; gap:10px; align-items:flex-start">
+    <div style="font-size:18px">💬</div>
+    <div style="min-width:0">
+      <div style="font-weight:900; margin-bottom:6px">Monto referencial</div>
+      <div style="color:rgba(107,85,110,.95); line-height:1.6; font-size:14px">
+        Los montos son <b>referenciales</b>. Si en algún momento quieres ajustar algo o cambiarlo,
+        lo conversamos con calma 😌
+      </div>
+    </div>
+  </div>
+</div>
+
+          <div class="msg">
+            <div><b>Aricita:</b> esto es para que te engreías cuando quieras, a tu ritmo 💗</div>
+            <div><b>De:</b> <span>Tu bot</span></div>
+            <div><b>Navidad:</b> <span id="year"></span> 🎄</div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="box">
+            <div style="display:flex; gap:10px; align-items:flex-start">
+              <div style="font-size:18px">📲</div>
+              <div style="min-width:0">
+                <div style="font-weight:900; margin-bottom:6px">Cómo canjear</div>
+                <div style="color:rgba(107,85,110,.95); line-height:1.6; font-size:14px">
+                  Presiona <b>“Copiar cupón”</b> y pégalo en WhatsApp para mandármelo.
+                  Con eso ya queda “canjeado” 😌
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="box">
+            <div style="display:flex; gap:10px; align-items:flex-start">
+              <div style="font-size:18px">🖨️</div>
+              <div style="min-width:0">
+                <div style="font-weight:900; margin-bottom:6px">Si quieres en PDF</div>
+                <div class="actions">
+                  <button id="btnPrint" class="btn-soft" title="Imprime o guarda como PDF">Click aquí para Imprimir PDF 🖨️</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      Para mi Ari 💌
+    </footer>
+  </div>
+
+  <div class="toast" id="toast">✅ Cupón copiado</div>
+
+  <script>
+    const yearEl = document.getElementById('year');
+    yearEl.textContent = new Date().getFullYear();
+
+    const toast = document.getElementById('toast');
+    let toastTimer = null;
+
+    function showToast(text){
+      toast.textContent = text;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=> toast.classList.remove('show'), 1400);
+    }
+
+    async function copyText(text){
+      try{
+        await navigator.clipboard.writeText(text);
+        showToast("✅ Cupón copiado");
+      }catch(e){
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast("✅ Copiado (modo compatibilidad)");
+      }
+    }
+
+    document.querySelectorAll('.btnCopy').forEach(btn=>{
+      btn.addEventListener('click', async ()=>{
+        const ticket = btn.closest('.ticket');
+        const title = ticket.dataset.title;
+        const code = ticket.dataset.code;
+
+        const message =
+`🎟️ Cupón: ${title}
+🔐 Código: ${code}
+(Te lo envío para canjearlo 😊)`;
+
+        await copyText(message);
+      });
+    });
+
+    document.getElementById('btnPrint').addEventListener('click', ()=> window.print());
+  </script>
+</body>
+</html>
